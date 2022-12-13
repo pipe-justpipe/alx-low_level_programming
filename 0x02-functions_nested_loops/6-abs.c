@@ -1,29 +1,29 @@
 #include "main.h"
 
 /**
- * print_sign - Entr point
+ * _abs - Entry point
  *
- * @n: carrier variable
+ * @n: n is an integer
  *
- * Description: prints the sign of a number
+ * Description: prints the absolute value of an integer
  *
- * Return: 1 if n>0, 0 if n == 0, -1 if n<0
+ * Return: int
  */
 
-int print_sign(int n)
+int _abs(int n)
 
 {
 	if (n > 0)
 	{
-		_putchar('+');
-		return (1);
+		return (n);
 	}
 	else if (n < 0)
 	{
-		_putchar('-');
-		return (-1);
+		return (-n);
 	}
-	_putchar('0');
-	return (0);
+	else
+	{
+		return (n);
+	}
 
 }
