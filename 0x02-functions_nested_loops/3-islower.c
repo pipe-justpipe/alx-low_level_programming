@@ -1,4 +1,4 @@
-#include "main"
+#include "mai.h"
 
 /**
  * _islower - Entry point
