@@ -1,105 +1,103 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include "main.h"
-#include <stdlib.h>
-
-#define ERR_MSG "Error"
-
-/**
- * is_digit - checks if a string contains a non-digit char
- * @s: string to be evaluated
- *
- * Return: 0 if a non-digit is found, 1 otherwise
- */
-
-int is_digit(char *s)
-{
-	int i = 0;
-
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
-		i++;
-
-	}
-	return (1);
-}
+int check_int(char *str);
+void print_error(void);
+void my_putchar(long var);
 
 /**
- * _strlen - returns the length of a string
- * @s: string to evaluate
- * Return: the length of the string
- *
- */
-
-int _strlen(char *s)
-{
-	int i = 0;
-
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-/**
- * errors - handles errors for main
- */
-
-void errors(void)
-{
-	printf("Error\n");
-	exit(98);
-}
-
-/**
- * main - multiplies two positive numbers
- * @argc: number of arguments
- * @argv: array of arguments
- * Return: always 0 (Success)
+ * main - Entry point
+ * @argc: Argument counter
+ * @argv: Argument vector
+ * Return: Returm multiplication of two numbers
  */
 
 int main(int argc, char *argv[])
 {
-	char *s1, *s2;
-	int len1, len2, len, i, carry, digit1, digit2, *result, a = 0;
+	int mul = 1;
 
-	s1 = argv[1], s2 = argv[2];
-
-	if (argc != 3 || !is_digit(s1) || !is_digit(s2))
-		errors();
-	len1 = _strlen(s1);
-	len2 = _strlen(s2);
-	len = len1 + len2 + 1;
-	result = malloc(sizeof(int) * len);
-	if (!result)
-		return (1);
-	for (i = 0; i <= len1 + len2; i++)
-		result[i] = 0;
-	for (len1 = len1 - 1; len1 >= 0; len1--)
+	if ((argc < 3) || (argc > 3))
 	{
-		digit1 = s1[len1] - '0';
-		carry = 0;
-		for (len2 = _strlen(s2) - 1; len2 >= 0; len2--)
-		{
-			digit2 = s2[len2] - '0';
-			carry += result[len1 + len2 + 1] + (digit1 * digit2);
-			result[len1 + len2 + 1] = carry % 10;
-			carry /= 10;
-		}
-		if (carry > 0)
-			result[len1 + len2 + 1] += carry;
+		print_error();
+		exit(98);
 	}
-	for (i = 0; i < len - 1; i++)
+	if ((check_int(argv[1])) && (check_int(argv[2])))
 	{
-		if (result[i])
-			a = 1;
-		if (a)
-			_putchar(result[i] + '0');
+		mul = check_int(argv[1]) * check_int(argv[2]);
+		my_putchar(mul);
+		_putchar('\n');
 	}
-	if (!a)
-		_putchar('0');
-	_putchar('\n');
+	else
+	{
+		print_error();
+		exit(98);
+	}
 	return (0);
+
+}
+
+/**
+ * check_int - A function to check if an argument is integer
+ * @str: String parameter
+ * Return: Return status 0 or 1
+ */
+int check_int(char *str)
+{
+	int i, num = 0;
+
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		if (str[i] >= '0' &&  str[i] <= '9')
+		{
+			if (i == 0)
+			{
+				num += str[0] - '0';
+			}
+			else
+			{
+				num = (num * 10) + str[i] - '0';
+			}
+		}
+		else
+		{
+			return (0);
+		}
+	}
+	return (num);
+}
+/**
+ * print_error - A function that print error using _putchar
+ * Return: void
+ */
+void print_error(void)
+{
+	char str[] = "Error\n";
+	int i;
+
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		_putchar(str[i]);
+	}
+}
+/**
+ * my_putchar - A function  that print integers using _putchar
+ * @var: Variable
+ * Return: void
+ */
+
+void my_putchar(long var)
+{
+
+/* print '-' for negative numbers */
+	if (var < 0)
+	{
+		_putchar('-');
+		var = var * -1;
+	}
+/* Print Zero */
+	if (var == 0)
+		_putchar('0');
+	if (var / 10)
+		my_putchar(var / 10);
+	_putchar(var % 10 + '0');
 }
